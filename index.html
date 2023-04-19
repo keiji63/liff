@@ -158,8 +158,8 @@
 		async function main() {
 			// alert("LINE Developers x Skooldio")
 			liff.ready.then(() => {
-				document.getElementById("isInclient").append(liff.isLoggedIn)
-				if (liff.isLoggedIn) {
+				document.getElementById("isInclient").append(liff.isLoggedIn())
+				if (liff.isLoggedIn()) {
 					getEnvironment()
 					getUserProfile()
 					getContext()
