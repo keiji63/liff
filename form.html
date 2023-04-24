@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>test LIFF</title>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script src="Scripts/jquery-3.3.1.min.js"></script>
+  <script src="Scripts/bootstrap.min.js"></script>
+  <link href="Content/bootstrap.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div class="row">
+    <div class="col-md-6" style="margin:5px">
+      <label>user id:</label>
+      <input class="form-control" type="text" id="userid" /> <br />
+      <label>QueryString:</label>
+      <input class="form-control" type="text" id="QueryString" /><br />
+      <button class="btn btn-primary" id="ButtonGetProfile">Get Profile</button>
+      <input class="form-control" type="text" id="UserInfo" /><br />
+      <label>ffff:</label>
+      <input class="form-control" type="text" id="msg" /><br />
+      <button class="btn btn-primary" id="ButtonSendMsg">Send Message</button>
+    </div>
+  </div>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    function initializeApp(data) {
+      let urlParams = new URLSearchParams(window.location.search);
+      $('#QueryString').val(urlParams.toString());
+      $('#userid').val(data.context.userId);
+    }
+
+    async function main() {
+      await liff.init({ liffId: "1660826063-ZqR18kwG" })
+      if (liff.isLoggedIn()) {
+        getUserProfile()
+      } else {
+        liff.login({ redirectUri: "https://keiji63.github.io/liff/path/" })
+      }
+    }
+    main()
+
+    $('#ButtonGetProfile').click(function () {
+      liff.getProfile().then(
+        profile => {
+          $('#UserInfo').val(profile.displayName);
+          alert('done');
+        }
+      );
+    });
+
+    $('#ButtonSendMsg').click(function () {
+      liff.sendMessages([
+        {
+          type: 'text',
+          text: $('#msg').val()
+        }
+      ])
+        .then(() => {
+          alert('done');
+        })
+    });
+  </script>
+</body>
+
+</html>
